@@ -28,6 +28,12 @@ import com.lowagie.text.pdf.PdfDestination;
 import com.lowagie.text.pdf.PdfOutline;
 import com.lowagie.text.pdf.PdfWriter;
 
+/**
+ * KantanPDFのOpenPDF実装
+ * 
+ * @author xyro
+ *
+ */
 public class KantanOpenPDF implements KantanPDF {
 	private static final int HORALIGN_LEFT = 0;
 	@SuppressWarnings("unused")
@@ -43,7 +49,7 @@ public class KantanOpenPDF implements KantanPDF {
 	//埋め込みゴシック体フォントパス
 	private String gothicFont = "truetype/TakaoPGothic.ttf";
 	//埋め込みフォントを使用する時はtrue
-	// (環境が変わってもコンパイル時と同じに表示できるが、ファイルサイズが巨大になるので使わぬ方が吉)
+	// (環境が変わってもコンパイル時と同じに表示できるが、ファイルサイズが巨大になるので注意のこと)
 	private boolean useEmbeddedFont = false;
 	
 	private Document document;
@@ -96,8 +102,8 @@ public class KantanOpenPDF implements KantanPDF {
 				font = isMincho ? BaseFont.createFont(minchoFont, BaseFont.IDENTITY_H, BaseFont.EMBEDDED):
 						 		BaseFont.createFont(gothicFont, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 			}else {
-				font = isMincho ? BaseFont.createFont("HeiseiMin-W3", "UniJIS-UCS2-H", false):
-					 			BaseFont.createFont("HeiseiKakuGo-W5", "UniJIS-UCS2-H", false);
+				font = isMincho ? BaseFont.createFont("HeiseiMin-W3", "UniJIS-UCS2-H", BaseFont.NOT_EMBEDDED):
+					 			BaseFont.createFont("HeiseiKakuGo-W5", "UniJIS-UCS2-H", BaseFont.NOT_EMBEDDED);
 			}
 		} catch (DocumentException | IOException e) {
 			e.printStackTrace();
@@ -117,7 +123,6 @@ public class KantanOpenPDF implements KantanPDF {
 		document.open();
 		canvas = writer.getDirectContent();
 		selectedFont = selectFont();
-		
 	}
 	
 	@Override

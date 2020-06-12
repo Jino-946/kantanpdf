@@ -21,8 +21,9 @@ public class DesktopPathTest {
 		   .setTextAlign(KantanPDF.TEXTPOS_UL)
 		   .textOut(cm(5), cm(10),"TEXTPOS_UL")
 		   .setTextAlign(KantanPDF.TEXTPOS_ML)
-		   .textOut(cm(8), cm(10), "真ん中 左揃え");
-				
+		   .textOut(cm(12), cm(10), "真ん中 左揃え")
+		   .setTextAlign(KantanPDF.TEXTPOS_MR)
+		   .textOut(cm(12), cm(10), "真ん中 右揃え");
 		    pdf.saveTo("textalign.pdf");
 		
 		

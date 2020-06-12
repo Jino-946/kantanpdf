@@ -32,15 +32,15 @@ import com.lowagie.text.pdf.PdfOutline;
 *
 * 
 *   3) サンプル
-*    KantanDF pdf = new KantanPDFiText(PageSize.A4);
+*    KantanDF pdf = new KantanOpenPDF(PageSize.A4);
 *    pdf.newPage()
 *   .moveTo(cm(1), cm(10))
 *   .lineTo(cm(20), cm(10))
-*   .setTextAlign(EasyPDF.TEXTPOS_LL)
+*   .setTextAlign(KantanPDF.TEXTPOS_LL)
 *   .textOut(cm(5), cm(10), "TEXTPOS_LL")
-*   .setTextAlign(EasyPDF.TEXTPOS_UL)
+*   .setTextAlign(KantanPDF.TEXTPOS_UL)
 *   .textOut(cm(5), cm(10),"TEXTPOS_UL")
-*   .setTextAlign(EasyPDF.TEXTPOS_ML)
+*   .setTextAlign(KantanPDF.TEXTPOS_ML)
 *   .textOut(cm(8), cm(10), "TEXTPOS_ML");
 *		
 *    pdf.saveTo("textalign.pdf");
