@@ -5,25 +5,35 @@ import java.awt.Color;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import com.itextpdf.text.Font;
-import com.itextpdf.text.pdf.PdfOutline;
+import com.lowagie.text.pdf.PdfOutline;
 
 /**
 * ・ KantanPDFについて
 * <pre>
-*  1) 座標系は用紙の左上を原点とする。
-*  2) 単位はpointを使用する
+*   1)KantanPDFインスタンスを生成し、newPage()を呼び出すと新しいページを用意します。
+*     座標を指定し文字列や四角形を自由に描いてください。
+*     newPage()を呼び出せばいつでも新しいページを用意します。
+*     (コンストラクタで指定した用紙サイズの範囲外の座標は単純に無視します(^^;
+*    
+*   2)最後にsaveTo(String path)を呼び出すと引数で指定したpathに
+*     PDFが出来ているはずです。
+
+*    注意1) 座標系は用紙の左上を原点としてます。
+*     
+*    注意2) 座標単位は内部的にはpointを使用してます。
 *    1 point = 1 unit = 1/72 inch
 *    1inch = 25.4mm = 72 unit
-*  3) メートルまたはインチからpointに変換するには
-*     DPIUtilのメソッドをスタティックインポートして利用する
-*     import static org.m946.kantanpdf.DPIUtil.*;
-*     float point = cm(5);
+*    
+*    //メートル単位またはインチ単位からpointに変換するには
+*    //DPIUtilのスタティック・メソッドを使って変換してね。
+*    import static org.m946.kantanpdf.DPIUtil.*;
+*    float x = cm(5);
+*    float y = inch(0.3);
+*
 * 
-* 
-* 
-*KantanDF pdf = new KantanPDFiTextImpl(PageSize.A4);
-*pdf.newPage()
+*   3) サンプル
+*    KantanDF pdf = new KantanPDFiText(PageSize.A4);
+*    pdf.newPage()
 *   .moveTo(cm(1), cm(10))
 *   .lineTo(cm(20), cm(10))
 *   .setTextAlign(EasyPDF.TEXTPOS_LL)
@@ -33,7 +43,7 @@ import com.itextpdf.text.pdf.PdfOutline;
 *   .setTextAlign(EasyPDF.TEXTPOS_ML)
 *   .textOut(cm(8), cm(10), "TEXTPOS_ML");
 *		
-*pdf.createFile("textalign.pdf");
+*    pdf.saveTo("textalign.pdf");
 * </pre>
 */
 
@@ -70,9 +80,9 @@ public interface KantanPDF {
 	/**
 	 * 作成したPDFをファイルに出力する。
 	 * 
-	 * @param filename 出力するファイル名
+	 * @param path 出力するファイルパス
 	 */
-	void createFile(String filename);
+	void saveTo(String path);
 
 	/**
 	 *  PDF作成を終了する。
@@ -90,33 +100,6 @@ public interface KantanPDF {
 	 */	
 	KantanPDF textOut(float x, float y, String text);
 
-	/**
-	 * 指定した座標に左揃えで文字列を出力する。
-	 * 
-	 * @param x
-	 * @param y
-	 * @param text
-	 */
-	KantanPDF textOutL(float x, float y, String text);
-
-	/**
-	 * 指定した座標に中央揃えで文字列を出力する。 
-	 * 
-	 * 
-	 * @param x 
-	 * @param y
-	 * @param text
-	 */
-	KantanPDF textOutC(float x, float y, String text);
-
-	/**
-	 * 指定した座標に右揃えで文字列を出力する。
-	 * 
-	 * @param x
-	 * @param y
-	 * @param text
-	 */
-	KantanPDF textOutR(float x, float y, String text);
 
 	/**
 	 * double値を指定した座標にカンマ区切り、右揃えで出力する。
@@ -284,7 +267,5 @@ public interface KantanPDF {
 	KantanPDF setTopMargin(float tm);
 
 	KantanPDF setUseEmbeddedFont(boolean value);
-	
-	Font getFont();
 
 }

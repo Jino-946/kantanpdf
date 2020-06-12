@@ -6,9 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 
+/*
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
@@ -16,8 +16,19 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfDestination;
 import com.itextpdf.text.pdf.PdfOutline;
 import com.itextpdf.text.pdf.PdfWriter;
+*/
 
-public class KantanPDFiText implements KantanPDF {
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Image;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfDestination;
+import com.lowagie.text.pdf.PdfOutline;
+import com.lowagie.text.pdf.PdfWriter;
+
+public class KantanOpenPDF implements KantanPDF {
 	private static final int HORALIGN_LEFT = 0;
 	@SuppressWarnings("unused")
 	private static final int HORALIGN_CENTER = 1;
@@ -29,9 +40,10 @@ public class KantanPDFiText implements KantanPDF {
 
 	//埋め込み明朝体フォントパス 
 	private String minchoFont = "truetype/TakaoPMincho.ttf";
-	//埋め込みゴシック体フォントパスascend
+	//埋め込みゴシック体フォントパス
 	private String gothicFont = "truetype/TakaoPGothic.ttf";
-	//埋め込みフォントを使用する(環境が変わっても全く同様に表示できるが、ファイルサイズが巨大になる)
+	//埋め込みフォントを使用する時はtrue
+	// (環境が変わってもコンパイル時と同じに表示できるが、ファイルサイズが巨大になるので使わぬ方が吉)
 	private boolean useEmbeddedFont = false;
 	
 	private Document document;
@@ -40,13 +52,6 @@ public class KantanPDFiText implements KantanPDF {
 	private PdfContentByte canvas;
 	
 	private BaseFont selectedFont;
-	//出力する文字列の幅を計算するためのフォント
-	private Font font4CalcTextWidth;
-	
-	// TODO どこで使われているか確認すること
-	public Font getFont(){
-		return new Font(font4CalcTextWidth);
-	}
 	
 	
 	private boolean documentClosed = false;
@@ -97,11 +102,10 @@ public class KantanPDFiText implements KantanPDF {
 		} catch (DocumentException | IOException e) {
 			e.printStackTrace();
 		}
-		font4CalcTextWidth = new Font(selectedFont);
 		return font;
 	}
 
-	public KantanPDFiText(Rectangle sageSize) {
+	public KantanOpenPDF(Rectangle pageSize) {
 		this.pageSize = pageSize;
 		document = new Document(pageSize);
 		baos = new ByteArrayOutputStream();
@@ -123,10 +127,10 @@ public class KantanPDFiText implements KantanPDF {
 	}
 
 	@Override
-	public void createFile(String filename) {
+	public void saveTo(String path) {
 		close();
 		try {
-			FileOutputStream fos = new FileOutputStream(filename);
+			FileOutputStream fos = new FileOutputStream(path);
 			fos.write(baos.toByteArray());
 			fos.close();
 		} catch (IOException e) {
@@ -228,24 +232,6 @@ public class KantanPDFiText implements KantanPDF {
 	public KantanPDF textOut(float x, float y, String text) {
 		_textout(x, y, text);
 		return this;
-	}
-
-	//TODO 不必要なので削除予定
-	public KantanPDF textOutL(float x, float y, String text) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	//TODO 不必要なので削除予定
-	public KantanPDF textOutC(float x, float y, String text) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	//TODO 不必要なので削除予定
-	public KantanPDF textOutR(float x, float y, String text) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	
@@ -435,6 +421,4 @@ public class KantanPDFiText implements KantanPDF {
 		selectedFont = selectFont();
 		return this;
 	}
-
-
 }
