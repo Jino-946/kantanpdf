@@ -6,17 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 
-/*
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfDestination;
-import com.itextpdf.text.pdf.PdfOutline;
-import com.itextpdf.text.pdf.PdfWriter;
-*/
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -48,8 +37,10 @@ public class KantanOpenPDF implements KantanPDF {
 	private String minchoFont = "truetype/TakaoPMincho.ttf";
 	//埋め込みゴシック体フォントパス
 	private String gothicFont = "truetype/TakaoPGothic.ttf";
-	//埋め込みフォントを使用する時はtrue
-	// (環境が変わってもコンパイル時と同じに表示できるが、ファイルサイズが巨大になるので注意のこと)
+
+	/* 埋め込みフォントを使用する時はtrue
+	 * (動作環境が変わっても全く同一に表示できるが、ファイルサイズが巨大になるので注意のこと)
+	 */
 	private boolean useEmbeddedFont = false;
 	
 	private Document document;
