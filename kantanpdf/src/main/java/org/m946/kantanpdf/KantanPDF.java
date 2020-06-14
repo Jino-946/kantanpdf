@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Image;
-import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
@@ -20,9 +19,9 @@ import com.lowagie.text.pdf.PdfWriter;
 /**
 * ・ KantanPDFについて
 * <pre>
-*   1)KantanPDFインスタンスを生成し、newPage()を呼び出すと新しいページを用意します。
+*   1)KantanPDFインスタンスを生成するとPDFを作成する準備は出来ています。
 *     座標を指定し文字列や四角形を自由に描いてください。
-*     newPage()を呼び出せばいつでも新しいページを用意します。
+*     newPage()を呼び出せばいつでも新しいページが準備されます。
 *     (コンストラクタで指定した用紙サイズの範囲外の座標は単純に無視します(^^;
 *    
 *   2)最後にsaveTo(String path)を呼び出すと引数で指定したpathに
@@ -43,7 +42,7 @@ import com.lowagie.text.pdf.PdfWriter;
 * 
 *   3) サンプル
 *    KantanDF pdf = new KantanPDF(PageSize.A4);
-*    pdf.newPage()
+*   pdf 
 *   .moveTo(cm(1), cm(10))
 *   .lineTo(cm(20), cm(10))
 *   .setTextAlign(TextAlign.LowerLeftL)
@@ -56,6 +55,7 @@ import com.lowagie.text.pdf.PdfWriter;
 *    pdf.saveTo("textalign.pdf");
 * </pre>
 */
+
 
 public class KantanPDF {
 	private static DateTimeFormatter DEFAULT_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy/MM/dd");
@@ -159,6 +159,7 @@ public class KantanPDF {
 		document.open();
 		canvas = writer.getDirectContent();
 		selectedFont = selectFont();
+		newPage();
 	}
 	
 
@@ -247,6 +248,7 @@ public class KantanPDF {
 		canvas.beginText();
 		canvas.setFontAndSize(selectedFont, fontSize);
 		float xpos = getX(x);
+		System.out.println(xpos);
 		int horAlign = getHorizontalAlign();
 		if (horAlign == HORALIGN_LEFT){
 			xpos += TEXTOFFSET;
