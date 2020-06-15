@@ -9,7 +9,7 @@ import org.m946.kantanpdf.TextAlign;
 import static org.m946.kantanpdf.DPIUtil.*;
 
 @lombok.extern.slf4j.Slf4j
-public class Samples {
+public class SamplePDF {
 	@Test
 	public void helloWorld() {
 		KantanPDF pdf = new KantanPDF(PageSize.A4);
@@ -26,7 +26,7 @@ public class Samples {
 		pdf.setTextAlign(TextAlign.LowerCenter)
 			.setFontSize(30)
 			.textOut(cm(29.7f / 2f), cm(21f / 2f), "Hello, PDF");
-		log.info("Hi");
+		log.error("Hi");
 		pdf.saveTo("samples/hellopdf.pdf");
 	}
 }

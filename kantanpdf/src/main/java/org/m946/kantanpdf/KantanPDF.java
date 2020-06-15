@@ -248,7 +248,6 @@ public class KantanPDF {
 		canvas.beginText();
 		canvas.setFontAndSize(selectedFont, fontSize);
 		float xpos = getX(x);
-		System.out.println(xpos);
 		int horAlign = getHorizontalAlign();
 		if (horAlign == HORALIGN_LEFT){
 			xpos += TEXTOFFSET;
