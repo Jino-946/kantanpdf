@@ -3,12 +3,13 @@
 	<!-- ログの出力先と出力フォーマットを指定する -->
 	<Appenders>
 		<Console name="console-appender" target="SYSTEM_OUT">
-			<PatternLayout pattern="%-5p %l - %m%n" />
+			<!-- ログレベルで出力を色分けする。  (EclipseにはAnsi Consoleプラグインをインストールすること) -->
+			<PatternLayout pattern="%highlight{%-5p %l - %m%n}{FATAL=red,ERROR=red,WARN=yellow,INFO=black,DEBUG=blue,TRACE=green}" />
 		</Console>
 
 		<RollingFile name="file-appender"
 			fileName="/home/xyro/JDK/logs/err.log"
-			filePattern="/home/xyro/JDK/logs/errBAK-%d{yyyy-MM-dd}-%i.log">
+			filePattern="/home/xyro/JDK/logs/errbak-%d{yyyy-MM-dd}-%i.log">
 			<PatternLayout
 				pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}]&#x9;%-5p&#x9;%C&#x9;%M&#x9;line:%L&#x9;%m%n" />
 			<Policies>
@@ -21,8 +22,9 @@
 
 	<!-- パッケージごとにAppenderとログレベルを組み合わせる -->
 	<Loggers>
-		<Logger name="org.m946" level="debug" additivity="false">
-			<AppenderRef level="debug" ref="console-appender" />
+		<Logger name="org.m946" level="trace" additivity="false">
+			<AppenderRef level="trace" ref="console-appender" />
+			<!-- errorレベルはファイルにも記録する。 -->
 			<AppenderRef level="error" ref="file-appender" />
 		</Logger>
 		

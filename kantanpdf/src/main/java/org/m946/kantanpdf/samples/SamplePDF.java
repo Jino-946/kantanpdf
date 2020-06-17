@@ -20,9 +20,10 @@ public class SamplePDF {
 	// A4サイズ 210 x 297mm
 	@Test
 	public void helloPDF() {
+		log.error("Error だよ");
 		log.debug("there.");
 		KantanPDF pdf = new KantanPDF(PageSize.A4.rotate());
-		log.trace("here!!");
+		log.info("here!!");
 		pdf.setTextAlign(TextAlign.LowerCenter)
 			.setFontSize(30)
 			.textOut(cm(29.7f / 2f), cm(21f / 2f), "Hello, PDF");
