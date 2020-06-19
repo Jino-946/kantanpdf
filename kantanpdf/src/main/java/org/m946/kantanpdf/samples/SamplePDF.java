@@ -8,10 +8,12 @@ import org.m946.kantanpdf.TextAlign;
 
 import static org.m946.kantanpdf.DPIUtil.*;
 
+import java.io.IOException;
+
 @lombok.extern.slf4j.Slf4j
 public class SamplePDF {
 	@Test
-	public void helloWorld() {
+	public void helloWorld() throws IOException {
 		KantanPDF pdf = new KantanPDF(PageSize.A4);
 		pdf.textOut(0, 0, "Hello, world")
 			.saveTo("samples/helloworld.pdf");
@@ -19,7 +21,7 @@ public class SamplePDF {
 
 	// A4サイズ 210 x 297mm
 	@Test
-	public void helloPDF() {
+	public void helloPDF() throws IOException {
 		log.error("Error だよ");
 		log.debug("there.");
 		KantanPDF pdf = new KantanPDF(PageSize.A4.rotate());
@@ -28,6 +30,6 @@ public class SamplePDF {
 			.setFontSize(30)
 			.textOut(cm(29.7f / 2f), cm(21f / 2f), "Hello, PDF");
 		log.error("Hi");
-		pdf.saveTo("samples/hellopdf.pdf");
+		pdf.saveTo("nowhere/hellopdf.pdf");
 	}
 }

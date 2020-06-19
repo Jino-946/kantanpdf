@@ -42,8 +42,7 @@ import com.lowagie.text.pdf.PdfWriter;
 * 
 *   3) サンプル
 *    KantanDF pdf = new KantanPDF(PageSize.A4);
-*   pdf 
-*   .moveTo(cm(1), cm(10))
+*    pdf.moveTo(cm(1), cm(10))
 *   .lineTo(cm(20), cm(10))
 *   .setTextAlign(TextAlign.LowerLeftL)
 *   .textOut(cm(5), cm(10), "ベースライン下/左揃え")
@@ -56,7 +55,7 @@ import com.lowagie.text.pdf.PdfWriter;
 * </pre>
 */
 
-
+@lombok.extern.slf4j.Slf4j
 public class KantanPDF {
 	private static DateTimeFormatter DEFAULT_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	@SuppressWarnings("unused")
@@ -141,7 +140,7 @@ public class KantanPDF {
 					 			BaseFont.createFont("HeiseiKakuGo-W5", "UniJIS-UCS2-H", BaseFont.NOT_EMBEDDED);
 			}
 		} catch (DocumentException | IOException e) {
-			e.printStackTrace();
+			log.error(e.toString(), e);
 		}
 		return font;
 	}
@@ -154,7 +153,7 @@ public class KantanPDF {
 		try {
 			writer = PdfWriter.getInstance(document, baos);
 		} catch (DocumentException e) {
-			e.printStackTrace();
+			log.error(e.toString(), e);
 		}
 		document.open();
 		canvas = writer.getDirectContent();
@@ -169,14 +168,15 @@ public class KantanPDF {
 	}
 
 	
-	public void saveTo(String path) {
+	public void saveTo(String path) throws IOException {
 		close();
 		try {
 			FileOutputStream fos = new FileOutputStream(path);
 			fos.write(baos.toByteArray());
 			fos.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e.toString(), e);
+			throw(e);
 		}
 	}
 
@@ -377,7 +377,7 @@ public class KantanPDF {
 	}
 
 	
-	public KantanPDF imageOut(String filename, float x, float y, float scale) {
+	public KantanPDF imageOut(String filename, float x, float y, float scale) throws Exception {
 		try {
 			Image img = Image.getInstance(filename);
 			float yPos = pageSize.getHeight() - img.getScaledHeight() / scale - y - tm;
@@ -385,18 +385,19 @@ public class KantanPDF {
 			img.scaleAbsolute(img.getWidth() / scale, img.getHeight() / scale);
 			canvas.addImage(img);
 		} catch (IOException | DocumentException e) {
-			e.printStackTrace();
+			log.error(e.toString(), e);
+			throw(e);
 		}
 		return this;
 	}
 
 	
-	public KantanPDF imageOut(String filename, float x, float y) {
+	public KantanPDF imageOut(String filename, float x, float y) throws Exception {
 		return imageOut(filename, x, y, 1f);
 	}
 
 	
-	public KantanPDF imageOut(byte[] image, float x, float y, float scale) {
+	public KantanPDF imageOut(byte[] image, float x, float y, float scale) throws Exception {
 		try {
 			Image img = Image.getInstance(image);
 			float yPos = pageSize.getHeight() - img.getScaledHeight() / scale - y - tm;
@@ -404,13 +405,14 @@ public class KantanPDF {
 			img.scaleAbsolute(img.getWidth() / scale, img.getHeight() / scale);
 			canvas.addImage(img);
 		} catch (IOException | DocumentException e) {
-			e.printStackTrace();
+			log.error(e.toString(), e);
+			throw(e);
 		}
 		return this;
 	}
 		
 	
-	public KantanPDF imageOut(byte[] image, float x, float y) {
+	public KantanPDF imageOut(byte[] image, float x, float y) throws Exception {
 		return imageOut(image, x, y, 1f);
 	}
 
