@@ -30,6 +30,6 @@ public class SamplePDF {
 			.setFontSize(30)
 			.textOut(cm(29.7f / 2f), cm(21f / 2f), "Hello, PDF");
 		log.error("Hi");
-		pdf.saveTo("nowhere/hellopdf.pdf");
+		pdf.saveTo("samples/hellopdf.pdf");
 	}
 }
