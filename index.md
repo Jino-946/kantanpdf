@@ -2,7 +2,7 @@
 layout: default
 ---
 
-#GitHub Pages のサンプルです
+# GitHub Pages のサンプルです
 
 
 
