@@ -16,6 +16,7 @@ import com.lowagie.text.pdf.PdfDestination;
 import com.lowagie.text.pdf.PdfOutline;
 import com.lowagie.text.pdf.PdfWriter;
 
+
 /**
 * ・ KantanPDFについて
 * <pre>
@@ -41,7 +42,8 @@ import com.lowagie.text.pdf.PdfWriter;
 *
 * 
 *   3) サンプル
-*    KantanDF pdf = new KantanPDF(PageSize.A4);
+*    KantanDF pdf = new KantanPDF(org.m946.kantanpdf.PageSize.A4);
+*	 pdf.newPage();
 *    pdf.moveTo(cm(1), cm(10))
 *   .lineTo(cm(20), cm(10))
 *   .setTextAlign(TextAlign.LowerLeftL)
@@ -92,8 +94,11 @@ public class KantanPDF {
 	private int fontSize = 12;
 	private com.lowagie.text.Rectangle pageSize;
 
-	// デフォルトはベースライン下、左揃え
 	private TextAlign textAlign = TextAlign.LowerLeft;
+	
+	// デフォルトは左揃え
+	@SuppressWarnings("unused")
+	private int _horizontalTextAlign = PdfContentByte.ALIGN_LEFT;
 	
 	//明朝体を使うときはtrue
 	private boolean isMincho = false;
@@ -158,7 +163,6 @@ public class KantanPDF {
 		document.open();
 		canvas = writer.getDirectContent();
 		selectedFont = selectFont();
-		newPage();
 	}
 	
 
@@ -276,38 +280,60 @@ public class KantanPDF {
 		return this;
 	}
 
+/*	
+	public KantanPDF textOutLL(float x, float y, String text){
+		_horizontalTextAlign = PdfContentByte.ALIGN_LEFT;
+		return textOut(x, y, text);
+	}
 	
 	
+	public KantanPDF textOutLC(float x, float y, String text){
+		_horizontalTextAlign = PdfContentByte.ALIGN_CENTER;
+		return textOut(x, y, text);
+	}
+	
+	public KantanPDF textOutLR(float x, float y, String text){
+		_horizontalTextAlign = PdfContentByte.ALIGN_RIGHT;
+		return textOut(x, y, text);
+	}
+*/
+	
+	/* double型はカンマ編集し右詰めで出力*/
 	public KantanPDF textOut(float x, float y, double val) {
 		String text = String.format("%1$,d", (long)val);
-		textAlign = TextAlign.LowerRight;
-		_textout(x, y, text);
+		TextAlign taOld = textAlign;
+		textOut(x, y, text);
+		textAlign = taOld;
 		return this;
 	}
 
-	
+	/* long型はカンマ編集し右詰めで出力*/
 	public KantanPDF textOut(float x, float y, long val) {
 		String text = String.format("%1$,d", (long)val);
-		textAlign = TextAlign.LowerRight;
-		_textout(x, y, text);
+		TextAlign taOld = textAlign;
+		textOut(x, y, text);
+		textAlign = taOld;
 		return this;	
 	}
 
-	
+	/* LocalDate型は日付フォーマットを適用し中央揃えで出力*/
 	public KantanPDF textOut(float x, float y, LocalDate date) {
 		String text = date.format(DEFAULT_DATE_FORMAT);
-		textAlign = TextAlign.LowerCenter;
-		_textout(x, y, text);
+		TextAlign taOld = textAlign;
+		textOut(x, y, text);
+		textAlign = taOld;
 		
 		return this;
 	}
 
 	
-	private void printPageNumber() {
+	protected void printPageNumber() {
 		float x = pageSize.getWidth() / 2;
 		float y = pageSize.getHeight() - DPIUtil.cm(1d);
-		textAlign = TextAlign.MiddleCenter; 
-		_textout(x, y, "- " + pageNumber + " -");
+		TextAlign taOld = textAlign;
+		textAlign = TextAlign.LowerCenter; 
+		textOut(x, y, "- " + pageNumber + " -");
+		textAlign = taOld;
 		pageNumber++;
 	}
 

@@ -15,6 +15,16 @@ public class SamplePDF {
 	@Test
 	public void helloWorld() throws IOException {
 		KantanPDF pdf = new KantanPDF(PageSize.A4);
+		pdf.enableAutoPageNumber();
+		pdf.newPage();
+		 pdf.moveTo(cm(1), cm(10))
+		    .lineTo(cm(20), cm(10))
+		    .setTextAlign(TextAlign.LowerLeft)
+		    .textOut(cm(5), cm(10), "ベースライン下/左揃え")
+		    .setTextAlign(TextAlign.UpperLeft)
+		    .textOut(cm(5), cm(10),"ベースライン上/左揃え")
+		    .setTextAlign(TextAlign.MiddleLeft)
+		    .textOut(cm(10), cm(10), "ベースライン中/左揃え");	
 		pdf.textOut(0, 0, "Hello, world")
 			.saveTo("samples/helloworld.pdf");
 	}
