@@ -18,7 +18,7 @@ public class SongPDFTable extends AbstractPDFTable<Song> {
 
 	@Override
 	protected void buildFixedColumns() {
-		colWidths = Arrays.asList(cm(3.5), cm(3.5), cm(4.5), cm(4.5), cm(2));
+		colWidths = Arrays.asList(cm(3.5), cm(4), cm(4.5), cm(4.5), cm(2.5));
 		colCount = colWidths.size();
 		fixedColNames = Arrays.asList("曲名", "演奏", "作曲", "作詞", "リリース");
 	}

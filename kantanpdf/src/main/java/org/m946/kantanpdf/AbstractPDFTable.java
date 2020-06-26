@@ -215,14 +215,14 @@ public abstract class AbstractPDFTable<T> {
 	 * グリッドに固定列名を出力する
 	 */
 	protected void printColNames(){
-		float x = tableTopLeft.getX();
+		float xLeft = tableTopLeft.getX();
 		float y = tableTopLeft.getY();
-		float xPos = x + colWidths.get(0);
+		float x;
 		pdf.setTextAlign(TextAlign.LowerCenter).setFontSize(fontSizeM);
-		for (int i = 0; i < colCount - 1; i++){
-			xPos = x + colWidths.get(i + 1) / 2;
-			pdf.textOut(xPos, y, fixedColNames.get(i));
-			x += colWidths.get(i);
+		for (int i = 0; i < colCount; i++){
+			x = xLeft + colWidths.get(i) / 2;
+			pdf.textOut(x, y, fixedColNames.get(i));
+			xLeft += colWidths.get(i);
 		}
 	}	
 
@@ -245,7 +245,7 @@ public abstract class AbstractPDFTable<T> {
 	 * 帳票タイトルを出力する
 	 */
 	protected void printTitle(){
-		pdf.setTextAlign(TextAlign.LowerCenter);
+		pdf.setTextAlign(TextAlign.LowerLeft);
 		pdf.setFontSize(fontSizeL);
 		pdf.textOut(tableTopLeft.getX(), tableTopLeft.getY() - rowHeight - cm(0.2), title);
 	}
