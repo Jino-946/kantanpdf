@@ -11,7 +11,7 @@ import static org.m946.kantanpdf.DPIUtil.*;
 import java.io.IOException;
 
 @lombok.extern.slf4j.Slf4j
-public class SamplePDF {
+public class KantanPDFSample {
 	@Test
 	public void helloWorld() throws IOException {
 		KantanPDF pdf = new KantanPDF(PageSize.A4);

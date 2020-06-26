@@ -13,9 +13,8 @@ import com.lowagie.text.Rectangle;
 /**
  * 表形式のPDFを作成する抽象クラス<br/><br/>
  * 
- * 印刷したいPOJOのフィールドににColumnAnnotationで注釈し、AbstractPDFTableクラスを
- * 拡張したクラスで2つの抽象メソッドを実装するだけで、ある程度見栄えのする表形式のPDFを作成する。
- * 
+ * AbstractPDFTableクラスを拡張したクラスでコンストラクタを定義し2つの抽象メソッドを実装するだけで
+ * ある程度見栄えのする表形式のPDFを作成する。
  * 
  * @author jino946
  *
@@ -218,10 +217,10 @@ public abstract class AbstractPDFTable<T> {
 	protected void printColNames(){
 		float x = tableTopLeft.getX();
 		float y = tableTopLeft.getY();
-		float xPos = x;
-		pdf.setTextAlign(TextAlign.LowerLeft).setFontSize(fontSizeM);
-		for (int i = 0; i < colCount; i++){
-			xPos = x + colWidths.get(i) / 2;
+		float xPos = x + colWidths.get(0);
+		pdf.setTextAlign(TextAlign.LowerCenter).setFontSize(fontSizeM);
+		for (int i = 0; i < colCount - 1; i++){
+			xPos = x + colWidths.get(i + 1) / 2;
 			pdf.textOut(xPos, y, fixedColNames.get(i));
 			x += colWidths.get(i);
 		}
