@@ -1,6 +1,5 @@
 package org.m946.kantanpdf.samples.pdftable;
 
-import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import org.m946.kantanpdf.PageSize;
 public class PDFTableSample {
 
 	@Test
-	public void test() {
+	public void oldies() {
 		List<Song> oldies = new ArrayList<Song>();
 		oldies.add(new Song("Unchained Melody", "ライチャスブラザーズ", "A・ノース", "H・ザレット", 1965));
 		oldies.add(new Song("Runaway", "デル・シャノン", "デル・シャノン", "デル・シャノン", 1961));
