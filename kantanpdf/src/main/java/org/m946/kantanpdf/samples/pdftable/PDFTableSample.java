@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.List;
 import org.junit.Test;
 import org.m946.kantanpdf.PageSize;
-import org.m946.kantanpdf.RakuRakuPDFTable;
+import org.m946.kantanpdf.RakuchinPDFTable;
 import org.m946.kantanpdf.samples.pdftable.SongPDFTable;
 
 public class PDFTableSample {
@@ -24,7 +24,7 @@ public class PDFTableSample {
 	@Test
 	public void bestSellings() {
 		List<BestSelling> records = SampleService.getBestSelling();
-		RakuRakuPDFTable<BestSelling> pdf = new RakuRakuPDFTable<BestSelling>(PageSize.A4, "歴代シングル売上", records);
+		RakuchinPDFTable<BestSelling> pdf = new RakuchinPDFTable<BestSelling>(PageSize.A4, "歴代シングル売上", records);
 		
 		try {
 			pdf.create("samples/best.pdf");

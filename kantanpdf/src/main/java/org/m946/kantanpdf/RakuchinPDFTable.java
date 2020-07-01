@@ -12,11 +12,11 @@ import static org.m946.kantanpdf.DPIUtil.cm;
 import org.m946.kantanpdf.TextAlign;
 
 @lombok.extern.slf4j.Slf4j
-public class RakuRakuPDFTable<T> extends AbstractPDFTable<T> {
+public class RakuchinPDFTable<T> extends AbstractPDFTable<T> {
 	protected AnnotatedColumns<T> annoColumns;
 	
 	
-	public RakuRakuPDFTable(Rectangle paperSize, String title, List<T> data) {
+	public RakuchinPDFTable(Rectangle paperSize, String title, List<T> data) {
 		super(paperSize, title, data);
 		annoColumns = new AnnotatedColumns<T>(data.get(0));
 		paleColor = new Color(0xff, 0xff, 0xe0);
@@ -28,15 +28,11 @@ public class RakuRakuPDFTable<T> extends AbstractPDFTable<T> {
 	 */
 	@Override
 	protected void buildFixedColumns() {
-		System.out.println("buildFixedColums() called");
 		colWidths = new ArrayList<Float>();
 		fixedColNames = new ArrayList<String>();
-		log.debug("size of annoColulmns.getAnnotatedFields(): " + annoColumns.size());
 		annoColumns.getAnnotatedFields().forEach(field -> {
 			field.setAccessible(true);
 			PDFColumn anno = field.getAnnotation(PDFColumn.class);
-			log.debug("width: " + anno.width() + "cm");
-			System.out.println("width: " + anno.width() + "cm");
 			colWidths.add(cm(anno.width()));
 			fixedColNames.add(anno.name());
 		}); 
