@@ -9,7 +9,6 @@ import java.util.List;
 import com.lowagie.text.Rectangle;
 
 
-
 /**
  * 表形式のPDFを作成する抽象クラス<br/><br/>
  * 
@@ -45,7 +44,7 @@ public abstract class AbstractPDFTable<T> {
 	/** 濃い色 */
 	protected Color darkColor = new Color(0x7e, 0xce, 0xf4);   //固定行(列名)で使用する色
 	/** 薄い色 */
-	protected Color paleColor = new Color(0xd3, 0xed, 0xfb);   //データ行を一行置き色付けする時に使用する色
+	protected Color paleColor = new Color(0xd3, 0xed, 0xfb);   //データ行の偶数行を色付けする時に使用する色
 	/** Double、Longの値を1000で割り、丸める*/
 	protected boolean div1000 = false;
 	/** 用紙サイズ */
@@ -409,3 +408,4 @@ public abstract class AbstractPDFTable<T> {
 	
 	
 	
+

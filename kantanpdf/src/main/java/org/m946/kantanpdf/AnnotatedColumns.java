@@ -6,15 +6,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.m946.kantanpdf.ColumnAnnotation;
+import org.m946.kantanpdf.PDFColumn;
 
 /**
- * ColumnAnnotationで注釈されたフィールド情報を格納するクラス 
+ * PDFColumnで注釈されたフィールド情報を格納するクラス 
  * 
  * 
  * @author jino946
  *
- * @param <T> ColumnAnnotationで注釈したPOJO
+ * @param <T> PDFColumnで注釈したPOJO
  */
 @lombok.extern.slf4j.Slf4j
 public class AnnotatedColumns<T> {
@@ -30,7 +30,7 @@ public class AnnotatedColumns<T> {
 		Field[] declaredFields = pojo.getClass().getDeclaredFields();
 		annotatedFields = new ArrayList<Field>();
 		for (Field f : declaredFields){
-			if (f.getAnnotation(ColumnAnnotation.class) != null){
+			if (f.getAnnotation(PDFColumn.class) != null){
 				annotatedFields.add(f);
 			}
 		}
@@ -40,30 +40,30 @@ public class AnnotatedColumns<T> {
 	
 
 	/**
-	 * ColumnAnnotationをseqで指定された値でソートするためのComparator
+	 * PDFColumnをseqで指定された値でソートするためのComparator
 	 * 
 	 */
 	Comparator<Field> comparator = new Comparator<Field>(){
 		public int compare(Field fld1, Field fld2){
 			fld1.setAccessible(true);
 			fld2.setAccessible(true);
-			Integer val1 = fld1.getAnnotation(ColumnAnnotation.class).seq();
-			Integer val2 = fld2.getAnnotation(ColumnAnnotation.class).seq();
+			Integer val1 = fld1.getAnnotation(PDFColumn.class).order();
+			Integer val2 = fld2.getAnnotation(PDFColumn.class).order();
 			
 			return val1.compareTo(val2);
 		}
 	};
 	
 	/**
-	 * インデックスnで示された位置のColumnAnnotation返す。
+	 * インデックスnで示された位置のPDFColumn返す。
 	 * 
 	 * @param n インデックス
-	 * @return ColumnAnnotation
+	 * @return PDFColumn
 	 */
-	public ColumnAnnotation getColumnAnnotation(int n){
+	public PDFColumn getPDFColumn(int n){
 		Field field = annotatedFields.get(n);
 		field.setAccessible(true);
-		ColumnAnnotation ano = field.getAnnotation(ColumnAnnotation.class);
+		PDFColumn ano = field.getAnnotation(PDFColumn.class);
 		return ano;
 	}
 
@@ -86,7 +86,6 @@ public class AnnotatedColumns<T> {
 		return value;
 	}
 	
-	
 	/**
 	 * 注釈されたフィールドの数
 	 * 
@@ -94,6 +93,11 @@ public class AnnotatedColumns<T> {
 	 */
 	public int size(){
 		return annotatedFields.size();
+	}
+
+
+	public List<Field> getAnnotatedFields() {
+		return annotatedFields;
 	}
 }
 
