@@ -10,6 +10,7 @@ import com.lowagie.text.Rectangle;
 
 
 /**
+ * TODO Rectangleクラスをorg.m946.kantanpdfに変更すること
  * 表形式のPDFを作成する抽象クラス<br/><br/>
  * 
  * AbstractPDFTableクラスを拡張したクラスでコンストラクタを定義し2つの抽象メソッドを実装するだけで
@@ -48,7 +49,7 @@ public abstract class AbstractPDFTable<T> {
 	/** Double、Longの値を1000で割り、丸める*/
 	protected boolean div1000 = false;
 	/** 用紙サイズ */
-	protected Rectangle paperSize;
+	protected Rectangle pdfPage;
 	/** ロゴの格納パス */
 	protected String logoPath = null; 
 	/** ロゴの左上座標 */
@@ -100,7 +101,7 @@ public abstract class AbstractPDFTable<T> {
 	public AbstractPDFTable(Rectangle paperSize, String title, List<T> data){
 		this.data = data;
 		pdf = new KantanPDF(paperSize);
-		this.paperSize = paperSize;
+		this.pdfPage = paperSize;
 		this.title = title;
 		rowCount = (int)((paperSize.getHeight() - cm(5.0)) / rowHeight);
 	}
@@ -113,7 +114,7 @@ public abstract class AbstractPDFTable<T> {
 	protected void adjustTableLeft(){
 		if (!topLeftChanged){
 			float gridWidth = getTableRight() - tableTopLeft.getX();
-			float left = (paperSize.getWidth() - gridWidth) / 2;
+			float left = (pdfPage.getWidth() - gridWidth) / 2;
 			tableTopLeft.setX(left);
 		}
 	}

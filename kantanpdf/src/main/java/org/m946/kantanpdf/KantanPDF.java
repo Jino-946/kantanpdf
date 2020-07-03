@@ -18,6 +18,7 @@ import com.lowagie.text.pdf.PdfWriter;
 
 
 /**
+* TODO Rectangleクラスをorg.m946.kantanpdfに変更すること
 * ・ KantanPDFについて
 * <pre>
 *   1)KantanPDFインスタンスを生成するとPDFを作成する準備は出来ています。
@@ -59,9 +60,9 @@ import com.lowagie.text.pdf.PdfWriter;
 
 @lombok.extern.slf4j.Slf4j
 public class KantanPDF {
-	private static DateTimeFormatter DEFAULT_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+	private static final DateTimeFormatter DEFAULT_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	@SuppressWarnings("unused")
-	private static DateTimeFormatter DEFAULT_DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+	private static final DateTimeFormatter DEFAULT_DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 	
 	private static final int HORALIGN_LEFT = 0;
 	@SuppressWarnings("unused")
@@ -73,9 +74,9 @@ public class KantanPDF {
 	private static final int VERALIGN_UPPER = 2;
 
 	//埋め込み明朝体フォントパス 
-	private String minchoFont = "truetype/TakaoPMincho.ttf";
+	private static final String minchoFont = "truetype/TakaoPMincho.ttf";
 	//埋め込みゴシック体フォントパス
-	private String gothicFont = "truetype/TakaoPGothic.ttf";
+	private static final String gothicFont = "truetype/TakaoPGothic.ttf";
 
 	/* 埋め込みフォントを使用する時はtrue
 	 * (動作環境が変わっても全く同一に表示できるが、ファイルサイズが巨大になるので注意のこと)
@@ -92,13 +93,13 @@ public class KantanPDF {
 	
 	private boolean documentClosed = false;
 	private int fontSize = 12;
-	private com.lowagie.text.Rectangle pageSize;
+	private com.lowagie.text.Rectangle pdfPage;
 
 	private TextAlign textAlign = TextAlign.LowerLeft;
 	
 	// デフォルトは左揃え
 	@SuppressWarnings("unused")
-	private int _horizontalTextAlign = PdfContentByte.ALIGN_LEFT;
+	private int _horizontalTextAlign = PDFColumn.ALIGN_LEFT;
 	
 	//明朝体を使うときはtrue
 	private boolean isMincho = false;
@@ -131,7 +132,7 @@ public class KantanPDF {
 	 * @return トップマージンを加えた座標
 	 */
 	private float getY(float y){
-		return pageSize.getHeight() - (tm + y);
+		return pdfPage.getHeight() - (tm + y);
 	}
 	
 	private BaseFont selectFont(){
@@ -152,8 +153,8 @@ public class KantanPDF {
 
 	
 	public KantanPDF(com.lowagie.text.Rectangle pageSize) {
-		this.pageSize = pageSize;
-		document = new Document(this.pageSize);
+		this.pdfPage = pageSize;
+		document = new Document(this.pdfPage);
 		baos = new ByteArrayOutputStream();
 		try {
 			writer = PdfWriter.getInstance(document, baos);
@@ -328,8 +329,8 @@ public class KantanPDF {
 
 	
 	protected void printPageNumber() {
-		float x = pageSize.getWidth() / 2;
-		float y = pageSize.getHeight() - DPIUtil.cm(1d);
+		float x = pdfPage.getWidth() / 2;
+		float y = pdfPage.getHeight() - DPIUtil.cm(1d);
 		TextAlign taOld = textAlign;
 		textAlign = TextAlign.LowerCenter; 
 		textOut(x, y, "- " + pageNumber + " -");
@@ -406,7 +407,7 @@ public class KantanPDF {
 	public KantanPDF imageOut(String filename, float x, float y, float scale) throws Exception {
 		try {
 			Image img = Image.getInstance(filename);
-			float yPos = pageSize.getHeight() - img.getScaledHeight() / scale - y - tm;
+			float yPos = pdfPage.getHeight() - img.getScaledHeight() / scale - y - tm;
 			img.setAbsolutePosition(getX(x), yPos);
 			img.scaleAbsolute(img.getWidth() / scale, img.getHeight() / scale);
 			canvas.addImage(img);
@@ -426,7 +427,7 @@ public class KantanPDF {
 	public KantanPDF imageOut(byte[] image, float x, float y, float scale) throws Exception {
 		try {
 			Image img = Image.getInstance(image);
-			float yPos = pageSize.getHeight() - img.getScaledHeight() / scale - y - tm;
+			float yPos = pdfPage.getHeight() - img.getScaledHeight() / scale - y - tm;
 			img.setAbsolutePosition(getX(x), yPos);
 			img.scaleAbsolute(img.getWidth() / scale, img.getHeight() / scale);
 			canvas.addImage(img);
